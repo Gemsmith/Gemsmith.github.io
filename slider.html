@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SV Image Slider</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      height: 200vh; /* just to allow scrolling */
+    }
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+
+      height: 90px; /* Reduced to match image height */
+      margin: 20px auto; /* Smaller margin */
+      border-radius: 4px;
+
+    }
+
+    .slider-track {
+      display: flex;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      will-change: transform;
+      align-items: center; /* Vertically center images */
+    }
+
+    .slide {
+      width: 160px; /* Width of each image container */
+      min-width: 160px;
+      height: 90px;
+      flex-shrink: 0;
+      position: relative;
+      margin-right: 10px; /* Reduced gap between images */
+    }
+
+    .slide img {
+
+      height: 90px; /* Fixed height */
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider">
+    <div class="slider-track" id="sliderTrack">
+      <div class="slide"><img
+            src="https://images.clickfunnels.com/fd/e52599e39c493ba7bd933da381d423/gc.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+      <div class="slide"><img
+            src="https://images.clickfunnels.com/18/8a1048987045a880e2b12a248f512b/RBR.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/3d/dc560ac4014597a72e7dd0b930725c/LGL.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/10/b7ce47e875448d9516db6a243a12f4/AC.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/af/88842cb7094ce5bd354e044ce643f6/kb.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/6d/11912a69c144e982661220f6e93131/mtb.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/cd/4480f8bac84e1d83eefc648702002f/jd.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/65/9824679b7f4222a0cd43de998e2d8b/Andrew.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+<div class="slide"><img
+            src="https://images.clickfunnels.com/c9/8a0b9af7c3457ba29d9c70265754cd/NL.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+<div class="slide"><img
+            src="https://images.clickfunnels.com/5d/97d6fb87004da3af10d649068ed0fa/DB.png"
+            alt="Geometric pattern"
+            loading="lazy"
+          /></div>
+
+
+
+         </div>
+  </div>
+
+  <script>
+    const sliderTrack = document.getElementById('sliderTrack');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const slideWidth = slides[0].offsetWidth + 10; // Include margin in calculation
+    let position = 0;
+    let speed = 1; // Slightly faster base speed
+    let targetSpeed = 1;
+    let scrollTimeout;
+    let animationId;
+
+    // Clone slides for seamless looping (3 clones for smoothness)
+    for (let i = 0; i < 6; i++) {
+      slides.forEach(slide => {
+        const clone = slide.cloneNode(true);
+        sliderTrack.appendChild(clone);
+      });
+    }
+
+    function animateSlider() {
+      position -= speed;
+      
+      // Reset position when we've scrolled past original slides
+      if (position <= -slideWidth * slides.length) {
+        position += slideWidth * slides.length;
+      }
+      
+      sliderTrack.style.transform = `translateX(${position}px)`;
+
+      // Smooth speed adjustments
+      if (Math.abs(targetSpeed - speed) > 0.01) {
+        speed += (targetSpeed - speed) * 0.05;
+      }
+
+      animationId = requestAnimationFrame(animateSlider);
+    }
+
+    window.addEventListener('scroll', () => {
+      targetSpeed = 3; // Faster speed when scrolling
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        targetSpeed = 1; // Return to normal speed
+      }, 200);
+    });
+
+    // Start animation
+    animateSlider();
+
+    // Clean up
+    window.addEventListener('beforeunload', () => {
+      cancelAnimationFrame(animationId);
+    });
+  </script>
+
+</body>
+</html>
